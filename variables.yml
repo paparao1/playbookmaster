@@ -1,0 +1,30 @@
+--- # Example of using VARS externally and Internally
+
+- hosts: all
+  user: root
+  connection: ssh
+  become: yes
+  gather_facts: no
+  vars:
+   playbookversion: 1.0
+   playbookauthor: siva
+  vars_files:
+   - /root/myinfo.yml
+   - /root/sysconf.yml
+  vars_prompt:
+   - name: pkgtoinstall
+     prompt: which package to install?
+     default: telnet
+     private: yes
+  tasks:
+   - name: Install the mentioned package
+     yum: name={{ pkgtoinstall }} state=latest
+   - debug: var={{ myos }}
+   - debug: var={{ playbookauthor }}
+   - debug: var={{ MYOSFAMILY }}
+   - debug: msg=" I am learning DEVOPS"
+   - debug: msg=" My system name is {{ inventory_hostname }}"
+   - debug: msg=" My name is {{ firstname }} {{ SECONDNAME }}"
+   - debug: msg=" The current version of my playbook is {{ playbookversion }} and author is {{ playbookauthor }}"
+
+  

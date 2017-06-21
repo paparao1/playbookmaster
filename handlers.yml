@@ -1,0 +1,23 @@
+--- #Handlers
+
+- hosts: all
+  user: root
+  become: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Installing httd package on RedHat family
+    yum: name=httpd state=latest
+    when: ansible_os_family == "RedHat"
+    notify: RESTARTHTTPD
+  - name: Installing Apache2 package on Debian
+    yum: name=apache2 state=latest
+    when: ansible_os_family == "Debian"
+    notify: RESTARTAPACHE2
+  - name: Installing nano editor
+    yum: name=nano state=latest
+  handlers:
+  - name: RESTARTHTTPD
+    service: name=httpd state=restarted
+  - name: RESTARTAPACHE2
+    service: name=apache2 state=restarted

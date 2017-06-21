@@ -1,0 +1,10 @@
+- hosts: all 
+  user: root
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: ping the application server
+    raw: ls -lart > /root/root_dir.log
+   # delegate_to: 127.0.0.1
+

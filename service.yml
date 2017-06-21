@@ -1,0 +1,15 @@
+--- #Example of service module
+
+- hosts: all
+  user: root
+  connection: ssh
+  become: yes
+  gather_facts: yes
+  tasks:
+  - name: Install HTTPD package
+    yum: name=httpd state=latest
+  - name: Starting HTTPD service
+    service: name=httpd state=restarted
+  - name: Enabling HTTPD service
+    service: name=httpd enabled=yes
+  
